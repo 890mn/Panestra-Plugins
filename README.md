@@ -30,7 +30,7 @@ Codex 当前提供订阅用量，不执行任务。GLM 查询 Coding Plan 用量
 
 ## 构建与检查
 
-需要 Windows x64、Go 1.27+ 和 PowerShell。ALAS 桥接测试还需 Python 3.7+，仅使用标准库
+需要 Windows x64、Go 1.27+ 和 PowerShell。检查还需 Node.js 22+（进度监听测试）和 Python 3.7+（ALAS 桥接测试），Python 仅使用标准库
 
 ```powershell
 git clone https://github.com/890mn/Panestra-Plugins.git
@@ -94,6 +94,10 @@ go build -trimpath -o artifacts/publisher.exe ./cmd/publisher
 | `tests`   | ALAS 只读桥接合同测试                |
 
 ## 更新说明
+
+### 网易云音乐 0.1.2
+
+改用播放器自身的事件通道监听进度，保留原有跳转完成回调，修复切歌继承旧跳转位置的问题。升级后将已打开的网易云退出并重新打开一次，清除旧监听和残留状态
 
 ### 网易云音乐 0.1.1
 

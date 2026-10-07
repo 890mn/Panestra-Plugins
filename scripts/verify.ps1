@@ -12,3 +12,7 @@ if($LASTEXITCODE-ne 0){throw 'Plugin tests failed'}
 $python=if($env:PANESTRA_PYTHON){$env:PANESTRA_PYTHON}else{(Get-Command python).Source}
 & $python tests/test-alas-bridge.py
 if($LASTEXITCODE-ne 0){throw 'ALAS bridge tests failed'}
+
+$nodeBinary=if($env:PANESTRA_NODE){$env:PANESTRA_NODE}else{(Get-Command node).Source}
+& $nodeBinary --test tests/netease-timeline.test.mjs
+if($LASTEXITCODE-ne 0){throw 'NetEase timeline tests failed'}

@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "id": "dev.panestra.netease",
   "name": "网易云音乐",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "engine": {
     "pluginApi": ">=1.0.0 <2.0.0",
     "runtime": "native-process",
@@ -132,8 +132,16 @@
     ],
     "setup": true,
     "ownerActions": [
-      { "label": "修复启动方式", "operation": "repair-startup", "body": {} },
-      { "label": "恢复启动设置", "operation": "restore-startup", "body": {} }
+      {
+        "label": "修复启动方式",
+        "operation": "repair-startup",
+        "body": {}
+      },
+      {
+        "label": "恢复启动设置",
+        "operation": "restore-startup",
+        "body": {}
+      }
     ],
     "controls": {
       "kind": "media",
