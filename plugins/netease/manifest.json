@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 2,
+  "id": "dev.panestra.netease",
+  "name": "网易云音乐",
+  "version": "0.1.0",
+  "engine": {
+    "pluginApi": ">=1.0.0 <2.0.0",
+    "runtime": "native-process",
+    "entry": "netease-plugin.exe",
+    "maxChildren": 4
+  },
+  "permissions": [
+    {
+      "id": "netease.media.read",
+      "required": false
+    }
+  ],
+  "sources": [
+    {
+      "id": "media.status",
+      "type": "object",
+      "unit": "",
+      "defaultIntervalMs": 2000
+    }
+  ],
+  "widgets": [
+    {
+      "id": "media-control",
+      "renderer": "declarative",
+      "subscriptions": ["media.status"],
+      "layout": {
+        "desktop": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 12,
+          "maxH": 12
+        },
+        "tablet": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 8,
+          "maxH": 12
+        },
+        "mobile": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 4,
+          "maxH": 12
+        }
+      },
+      "sizePresets": [
+        {
+          "id": "mini",
+          "w": 2,
+          "h": 2
+        },
+        {
+          "id": "strip",
+          "w": 4,
+          "h": 2
+        },
+        {
+          "id": "standard",
+          "w": 4,
+          "h": 3
+        },
+        {
+          "id": "detail",
+          "w": 4,
+          "h": 4
+        },
+        {
+          "id": "wide",
+          "w": 6,
+          "h": 3
+        },
+        {
+          "id": "large",
+          "w": 8,
+          "h": 4
+        }
+      ],
+      "presentations": ["auto", "player", "track", "cover", "vinyl", "focus"],
+      "defaults": {
+        "title": "网易云播放",
+        "source": "media.status",
+        "unit": "",
+        "color": "sage"
+      },
+      "catalog": [
+        {
+          "title": "网易云播放",
+          "source": "media.status",
+          "unit": "",
+          "color": "sage",
+          "description": "音乐播放与控制"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "configSchema": {
+    "type": "object"
+  },
+  "ui": {
+    "key": "netease",
+    "category": "control",
+    "icon": "audio",
+    "subtitle": "音乐播放与控制",
+    "description": "查看歌曲与播放进度，授权后控制电脑上的播放器",
+    "notes": [
+      "封面与播放状态仅同步给已配对设备",
+      "本机进度通道只连接回环地址，未提供时长时禁用跳转"
+    ],
+    "settings": [
+      {
+        "key": "allowControl",
+        "label": "允许播放与切歌控制",
+        "type": "boolean",
+        "status": "allowControl"
+      },
+      {
+        "key": "timelinePort",
+        "label": "本机进度通道端口",
+        "type": "integer",
+        "status": "timelinePort",
+        "min": 0,
+        "max": 65535
+      }
+    ],
+    "setup": false,
+    "controls": {
+      "kind": "media",
+      "operation": "control",
+      "enabledMessage": "播放控制已授权",
+      "readOnlyMessage": "当前只读取歌曲信息"
+    },
+    "detailLabel": "状态与设置",
+    "refreshLabel": "刷新状态",
+    "enableLabel": "保存并启用读取",
+    "permissions": {
+      "netease.media.read": {
+        "label": "读取网易云音乐状态",
+        "description": "查看歌曲与播放进度，授权后控制电脑上的播放器"
+      }
+    }
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/integrations/netease",
+      "operation": "status",
+      "role": "viewer"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/netease",
+      "operation": "configure",
+      "role": "owner",
+      "grantField": "enabled",
+      "grant": "netease.media.read"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/netease/refresh",
+      "operation": "refresh",
+      "role": "viewer"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/netease/actions",
+      "operation": "control",
+      "role": "operator"
+    }
+  ],
+  "legacyData": "netease.protected"
+}

@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 2,
+  "id": "dev.panestra.glm",
+  "name": "GLM Coding Plan",
+  "version": "0.1.0",
+  "engine": {
+    "pluginApi": ">=1.0.0 <2.0.0",
+    "runtime": "native-process",
+    "entry": "glm-plugin.exe",
+    "maxChildren": 1
+  },
+  "permissions": [
+    {
+      "id": "glm.account.read",
+      "required": false
+    }
+  ],
+  "sources": [
+    {
+      "id": "account.usage",
+      "type": "object",
+      "unit": "",
+      "defaultIntervalMs": 1000
+    }
+  ],
+  "widgets": [
+    {
+      "id": "account-usage",
+      "renderer": "declarative",
+      "subscriptions": ["account.usage"],
+      "layout": {
+        "desktop": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 12,
+          "maxH": 12
+        },
+        "tablet": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 8,
+          "maxH": 12
+        },
+        "mobile": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 4,
+          "maxH": 12
+        }
+      },
+      "sizePresets": [
+        {
+          "id": "mini",
+          "w": 2,
+          "h": 2
+        },
+        {
+          "id": "strip",
+          "w": 4,
+          "h": 2
+        },
+        {
+          "id": "standard",
+          "w": 4,
+          "h": 3
+        },
+        {
+          "id": "detail",
+          "w": 4,
+          "h": 4
+        },
+        {
+          "id": "wide",
+          "w": 6,
+          "h": 3
+        },
+        {
+          "id": "large",
+          "w": 8,
+          "h": 4
+        }
+      ],
+      "presentations": [
+        "auto",
+        "summary",
+        "details",
+        "visual",
+        "tiles",
+        "segments"
+      ],
+      "defaults": {
+        "title": "GLM 编程额度",
+        "source": "account.usage",
+        "unit": "",
+        "color": "sage",
+        "valueMode": "usage"
+      },
+      "catalog": [
+        {
+          "title": "GLM 编程额度",
+          "source": "account.usage",
+          "unit": "",
+          "color": "sage",
+          "description": "中国区订阅用量",
+          "valueMode": "usage"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "configSchema": {
+    "type": "object"
+  },
+  "ui": {
+    "key": "glm",
+    "category": "status",
+    "icon": "gauge",
+    "subtitle": "中国区订阅用量",
+    "description": "查看智谱个人编程套餐的额度窗口与工具用量",
+    "notes": [
+      "使用中国区个人 Coding Plan 的 API Key",
+      "凭据由 Windows DPAPI 保护，配对设备只读取用量"
+    ],
+    "settings": [
+      {
+        "key": "apiKey",
+        "label": "API Key",
+        "type": "secret",
+        "placeholder": "仅保存在 Core 电脑上"
+      }
+    ],
+    "setup": false,
+    "detailLabel": "用量与设置",
+    "refreshLabel": "刷新用量",
+    "enableLabel": "保存并启用读取",
+    "permissions": {
+      "glm.account.read": {
+        "label": "读取GLM Coding Plan状态",
+        "description": "查看智谱个人编程套餐的额度窗口与工具用量"
+      }
+    }
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/integrations/glm",
+      "operation": "status",
+      "role": "viewer"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/glm",
+      "operation": "configure",
+      "role": "owner",
+      "grantField": "enabled",
+      "grant": "glm.account.read"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/glm/refresh",
+      "operation": "refresh",
+      "role": "viewer"
+    }
+  ],
+  "legacyData": "glm.protected"
+}

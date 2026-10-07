@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 2,
+  "id": "dev.panestra.codex",
+  "name": "Codex",
+  "version": "0.1.0",
+  "engine": {
+    "pluginApi": ">=1.0.0 <2.0.0",
+    "runtime": "native-process",
+    "entry": "codex-plugin.exe",
+    "maxChildren": 4
+  },
+  "permissions": [
+    {
+      "id": "codex.account.read",
+      "required": false
+    }
+  ],
+  "sources": [
+    {
+      "id": "account.usage",
+      "type": "object",
+      "unit": "",
+      "defaultIntervalMs": 1000
+    }
+  ],
+  "widgets": [
+    {
+      "id": "codex-usage",
+      "renderer": "declarative",
+      "subscriptions": ["account.usage"],
+      "layout": {
+        "desktop": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 12,
+          "maxH": 12
+        },
+        "tablet": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 8,
+          "maxH": 12
+        },
+        "mobile": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 4,
+          "maxH": 12
+        }
+      },
+      "sizePresets": [
+        {
+          "id": "mini",
+          "w": 2,
+          "h": 2
+        },
+        {
+          "id": "strip",
+          "w": 4,
+          "h": 2
+        },
+        {
+          "id": "standard",
+          "w": 4,
+          "h": 3
+        },
+        {
+          "id": "detail",
+          "w": 4,
+          "h": 4
+        },
+        {
+          "id": "wide",
+          "w": 6,
+          "h": 3
+        },
+        {
+          "id": "large",
+          "w": 8,
+          "h": 4
+        }
+      ],
+      "presentations": [
+        "auto",
+        "remaining",
+        "windows",
+        "rings",
+        "tiles",
+        "segments"
+      ],
+      "defaults": {
+        "title": "Codex 额度",
+        "source": "account.usage",
+        "unit": "",
+        "color": "sage"
+      },
+      "catalog": [
+        {
+          "title": "Codex 额度",
+          "source": "account.usage",
+          "unit": "",
+          "color": "sage",
+          "description": "订阅额度"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "configSchema": {
+    "type": "object"
+  },
+  "ui": {
+    "key": "codex",
+    "category": "status",
+    "icon": "code",
+    "subtitle": "订阅额度",
+    "description": "查看本机已登录账号的订阅额度与重置时间",
+    "notes": [
+      "任务运行状态尚未接入",
+      "复用电脑上的 Codex ChatGPT 登录，不需要复制凭据"
+    ],
+    "settings": [],
+    "setup": false,
+    "detailLabel": "额度与设置",
+    "refreshLabel": "刷新额度",
+    "enableLabel": "授权并启用额度读取",
+    "permissions": {
+      "codex.account.read": {
+        "label": "读取Codex状态",
+        "description": "查看本机已登录账号的订阅额度与重置时间"
+      }
+    }
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/integrations/codex",
+      "operation": "status",
+      "role": "viewer"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/codex",
+      "operation": "configure",
+      "role": "owner",
+      "grantField": "enabled",
+      "grant": "codex.account.read"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/codex/refresh",
+      "operation": "refresh",
+      "role": "viewer"
+    }
+  ],
+  "legacyData": "codex.protected"
+}

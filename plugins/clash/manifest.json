@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 2,
+  "id": "dev.panestra.clash",
+  "name": "Clash Verge",
+  "version": "0.1.0",
+  "engine": {
+    "pluginApi": ">=1.0.0 <2.0.0",
+    "runtime": "native-process",
+    "entry": "clash-plugin.exe",
+    "maxChildren": 1
+  },
+  "permissions": [
+    {
+      "id": "clash.proxy.read",
+      "required": false
+    }
+  ],
+  "sources": [
+    {
+      "id": "proxy.status",
+      "type": "object",
+      "unit": "",
+      "defaultIntervalMs": 1000
+    }
+  ],
+  "widgets": [
+    {
+      "id": "proxy-status",
+      "renderer": "declarative",
+      "subscriptions": ["proxy.status"],
+      "layout": {
+        "desktop": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 12,
+          "maxH": 12
+        },
+        "tablet": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 8,
+          "maxH": 12
+        },
+        "mobile": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 4,
+          "maxH": 12
+        }
+      },
+      "sizePresets": [
+        {
+          "id": "mini",
+          "w": 2,
+          "h": 2
+        },
+        {
+          "id": "strip",
+          "w": 4,
+          "h": 2
+        },
+        {
+          "id": "standard",
+          "w": 4,
+          "h": 3
+        },
+        {
+          "id": "detail",
+          "w": 4,
+          "h": 4
+        },
+        {
+          "id": "wide",
+          "w": 6,
+          "h": 3
+        },
+        {
+          "id": "large",
+          "w": 8,
+          "h": 4
+        }
+      ],
+      "presentations": [
+        "auto",
+        "summary",
+        "details",
+        "trend",
+        "route",
+        "meters"
+      ],
+      "defaults": {
+        "title": "Clash 代理状态",
+        "source": "proxy.status",
+        "unit": "",
+        "color": "sage"
+      },
+      "catalog": [
+        {
+          "title": "Clash 代理状态",
+          "source": "proxy.status",
+          "unit": "",
+          "color": "sage",
+          "description": "代理状态与控制"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "configSchema": {
+    "type": "object"
+  },
+  "ui": {
+    "key": "clash",
+    "category": "control",
+    "icon": "network",
+    "subtitle": "代理状态与控制",
+    "description": "查看代理模式、策略组与实时流量，授权后切换模式与节点",
+    "notes": [
+      "支持本机 HTTP 控制器和 Windows 命名管道",
+      "自动测速策略组只读，系统代理与 TUN 由 Clash Verge 管理"
+    ],
+    "settings": [
+      {
+        "key": "autoDetect",
+        "label": "自动发现本机 Clash Verge",
+        "type": "boolean",
+        "status": "autoDetect"
+      },
+      {
+        "key": "controller",
+        "label": "Mihomo 控制器地址",
+        "type": "text",
+        "status": "controller"
+      },
+      {
+        "key": "secret",
+        "label": "Mihomo Secret",
+        "type": "secret"
+      },
+      {
+        "key": "allowControl",
+        "label": "允许切换模式与节点",
+        "type": "boolean",
+        "status": "allowControl"
+      }
+    ],
+    "setup": false,
+    "controls": {
+      "kind": "proxy",
+      "operation": "control"
+    },
+    "detailLabel": "状态与设置",
+    "refreshLabel": "刷新状态",
+    "enableLabel": "保存并启用读取",
+    "permissions": {
+      "clash.proxy.read": {
+        "label": "读取Clash Verge状态",
+        "description": "查看代理模式、策略组与实时流量，授权后切换模式与节点"
+      }
+    }
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/integrations/clash",
+      "operation": "status",
+      "role": "viewer"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/clash",
+      "operation": "configure",
+      "role": "owner",
+      "grantField": "enabled",
+      "grant": "clash.proxy.read"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/clash/refresh",
+      "operation": "refresh",
+      "role": "viewer"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/clash/actions",
+      "operation": "control",
+      "role": "operator"
+    }
+  ],
+  "legacyData": "clash.protected"
+}

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "plugins": [
+    {
+      "id": "dev.panestra.system",
+      "name": "System Monitor",
+      "version": "0.1.0",
+      "package": "system.zip",
+      "manifest": "system.json",
+      "signature": "system.sig",
+      "description": "查看处理器、内存、磁盘和网络流量"
+    },
+    {
+      "id": "dev.panestra.codex",
+      "name": "Codex",
+      "version": "0.1.0",
+      "package": "codex.zip",
+      "manifest": "codex.json",
+      "signature": "codex.sig",
+      "description": "查看本机已登录账号的订阅额度与重置时间"
+    },
+    {
+      "id": "dev.panestra.glm",
+      "name": "GLM Coding Plan",
+      "version": "0.1.0",
+      "package": "glm.zip",
+      "manifest": "glm.json",
+      "signature": "glm.sig",
+      "description": "查看智谱个人编程套餐的额度窗口与工具用量"
+    },
+    {
+      "id": "dev.panestra.deepseek",
+      "name": "DeepSeek",
+      "version": "0.1.0",
+      "package": "deepseek.zip",
+      "manifest": "deepseek.json",
+      "signature": "deepseek.sig",
+      "description": "查看可用余额、赠送余额和充值余额"
+    },
+    {
+      "id": "dev.panestra.netease",
+      "name": "网易云音乐",
+      "version": "0.1.0",
+      "package": "netease.zip",
+      "manifest": "netease.json",
+      "signature": "netease.sig",
+      "description": "查看歌曲与播放进度，授权后控制电脑上的播放器"
+    },
+    {
+      "id": "dev.panestra.clash",
+      "name": "Clash Verge",
+      "version": "0.1.0",
+      "package": "clash.zip",
+      "manifest": "clash.json",
+      "signature": "clash.sig",
+      "description": "查看代理模式、策略组与实时流量，授权后切换模式与节点"
+    },
+    {
+      "id": "dev.panestra.alas",
+      "name": "ALAS",
+      "version": "0.1.0",
+      "package": "alas.zip",
+      "manifest": "alas.json",
+      "signature": "alas.sig",
+      "description": "查看实例、当前任务与调度队列"
+    }
+  ]
+}

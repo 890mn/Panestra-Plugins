@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 2,
+  "id": "dev.panestra.alas",
+  "name": "ALAS",
+  "version": "0.1.0",
+  "engine": {
+    "pluginApi": ">=1.0.0 <2.0.0",
+    "runtime": "native-process",
+    "entry": "alas-plugin.exe",
+    "maxChildren": 1
+  },
+  "permissions": [
+    {
+      "id": "alas.tasks.read",
+      "required": false
+    }
+  ],
+  "sources": [
+    {
+      "id": "task.status",
+      "type": "object",
+      "unit": "",
+      "defaultIntervalMs": 1000
+    }
+  ],
+  "widgets": [
+    {
+      "id": "task-status",
+      "renderer": "declarative",
+      "subscriptions": ["task.status"],
+      "layout": {
+        "desktop": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 12,
+          "maxH": 12
+        },
+        "tablet": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 8,
+          "maxH": 12
+        },
+        "mobile": {
+          "minW": 2,
+          "minH": 2,
+          "maxW": 4,
+          "maxH": 12
+        }
+      },
+      "sizePresets": [
+        {
+          "id": "mini",
+          "w": 2,
+          "h": 2
+        },
+        {
+          "id": "strip",
+          "w": 4,
+          "h": 2
+        },
+        {
+          "id": "standard",
+          "w": 4,
+          "h": 3
+        },
+        {
+          "id": "detail",
+          "w": 4,
+          "h": 4
+        },
+        {
+          "id": "wide",
+          "w": 6,
+          "h": 3
+        },
+        {
+          "id": "large",
+          "w": 8,
+          "h": 4
+        }
+      ],
+      "presentations": ["auto", "summary", "tasks", "timeline", "board"],
+      "defaults": {
+        "title": "ALAS 任务状态",
+        "source": "task.status",
+        "unit": "",
+        "color": "sage"
+      },
+      "catalog": [
+        {
+          "title": "ALAS 任务状态",
+          "source": "task.status",
+          "unit": "",
+          "color": "sage",
+          "description": "自动脚本状态"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "configSchema": {
+    "type": "object"
+  },
+  "ui": {
+    "key": "alas",
+    "category": "status",
+    "icon": "bot",
+    "subtitle": "自动脚本状态",
+    "description": "查看实例、当前任务与调度队列",
+    "notes": [
+      "只读桥接，不提供任务控制",
+      "生成桥接后使用启动文件运行 ALAS，不会自动重启现有任务"
+    ],
+    "settings": [
+      {
+        "key": "root",
+        "label": "ALAS 安装目录",
+        "type": "text",
+        "setup": "root"
+      },
+      {
+        "key": "port",
+        "label": "WebUI 端口",
+        "type": "integer",
+        "setup": "port",
+        "min": 1,
+        "max": 65535
+      },
+      {
+        "key": "instance",
+        "label": "实例名称",
+        "type": "text",
+        "setup": "instance"
+      }
+    ],
+    "setup": true,
+    "detailLabel": "状态与设置",
+    "refreshLabel": "刷新状态",
+    "enableLabel": "保存并启用读取",
+    "prepareLabel": "生成桥接并启用读取",
+    "prepareEnables": true,
+    "launcherNote": "使用此文件手动启动 ALAS，重启会中断当前任务",
+    "ownerActions": [
+      {
+        "label": "移除连接设置",
+        "operation": "configure",
+        "body": { "clearConfiguration": true }
+      }
+    ],
+    "permissions": {
+      "alas.tasks.read": {
+        "label": "读取ALAS状态",
+        "description": "查看实例、当前任务与调度队列"
+      }
+    }
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/integrations/alas",
+      "operation": "status",
+      "role": "viewer"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/alas",
+      "operation": "configure",
+      "role": "owner",
+      "grantField": "enabled",
+      "grant": "alas.tasks.read"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/alas/refresh",
+      "operation": "refresh",
+      "role": "viewer"
+    },
+    {
+      "method": "GET",
+      "path": "/integrations/alas/setup",
+      "operation": "setup",
+      "role": "owner"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/alas/prepare",
+      "operation": "prepare",
+      "role": "owner"
+    }
+  ],
+  "legacyData": "alas.protected",
+  "legacyPaths": ["alas-bridge"]
+}
