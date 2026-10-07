@@ -10,6 +10,8 @@ Schema 2 使用全局插件 ID、三段版本、native-process 引擎和包内 E
 
 `ui.ownerActions` 可提供清除连接等额外设置操作，包含 label、operation 与 JSON body，仅向 Owner 显示，operation 仍需在 routes 中声明
 
+`ui.setup` 用于读取 Owner 的连接配置，返回的 `message` 可显示当前配置情况。需要生成启动文件时同时提供 `prepareLabel` 并实现 prepare 操作；仅查询配置不显示生成按钮。额外设置操作返回的 `message` 显示为操作反馈，避免用后续配置查询覆盖恢复等操作的结果
+
 `routes` 声明 GET / POST、以 /integrations/ 开头的路径、operation 和最低角色。配置可用 grantField 与 grant 绑定读取权限；Role 从 Core 的认证结果产生，客户端不能自行指定。控制操作需检查 Operator / Owner 和插件自身的 allowControl
 
 `widgets` 中 renderer 固定为 declarative，id 选择宿主支持的视图，subscriptions 引用已声明源。提供 defaults、catalog、sizePresets 和 presentations，至少适配 2×2、4×2、4×3、4×4，表现包含 auto 和至少一个可选模式

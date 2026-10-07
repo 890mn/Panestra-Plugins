@@ -13,17 +13,19 @@ import (
 )
 
 type Service struct {
-	mu              sync.Mutex
-	operation       sync.Mutex
-	ctx             context.Context
-	filename        string
-	config          Config
-	status          Status
-	epoch, sequence uint64
-	cancel          context.CancelFunc
-	lastAttempt     time.Time
-	publish         func(Status, uint64)
-	media           Media
+	mu               sync.Mutex
+	operation        sync.Mutex
+	startupOperation sync.Mutex
+	ctx              context.Context
+	filename         string
+	config           Config
+	status           Status
+	epoch, sequence  uint64
+	cancel           context.CancelFunc
+	lastAttempt      time.Time
+	publish          func(Status, uint64)
+	media            Media
+	startup          startupManager
 }
 
 func blank(c Config) Status {
@@ -37,7 +39,7 @@ func NewService(ctx context.Context, dir string, publish func(Status, uint64)) *
 	return newService(ctx, dir, publish, NewMedia(ctx))
 }
 func newService(ctx context.Context, dir string, publish func(Status, uint64), media Media) *Service {
-	s := &Service{ctx: ctx, filename: filepath.Join(dir, "netease.protected"), publish: publish, media: media}
+	s := &Service{ctx: ctx, filename: filepath.Join(dir, "netease.protected"), publish: publish, media: media, startup: newStartup()}
 	failed := false
 	if raw, err := os.ReadFile(s.filename); err == nil {
 		plain, err := secret.Unprotect(raw)

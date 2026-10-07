@@ -73,8 +73,10 @@ func (m *timelineMedia) Call(ctx context.Context, action Action) (Reading, error
 		if timelineErr == nil {
 			applyTimeline(&reading, result)
 		} else {
-			reading.TimelineMessage = "本机进度通道未连接或播放器版本不兼容"
+			reading.TimelineMessage = "进度未连接，请在状态与设置中修复启动方式，再退出并重新打开网易云；若仍不可用，播放器版本可能不兼容"
 		}
+	} else if reading.DurationSeconds == nil {
+		reading.TimelineMessage = "播放器未提供系统进度，请先保存本机进度通道端口，再修复启动方式"
 	}
 	return reading, nil
 }

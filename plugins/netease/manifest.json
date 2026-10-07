@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "id": "dev.panestra.netease",
   "name": "网易云音乐",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "engine": {
     "pluginApi": ">=1.0.0 <2.0.0",
     "runtime": "native-process",
@@ -110,7 +110,9 @@
     "description": "查看歌曲与播放进度，授权后控制电脑上的播放器",
     "notes": [
       "封面与播放状态仅同步给已配对设备",
-      "本机进度通道只连接回环地址，未提供时长时禁用跳转"
+      "修复启动方式后，从原来的快捷方式或已有自启动入口打开网易云即可读取进度",
+      "当前播放器需退出再打开一次，直接运行 EXE 或其他启动器仍需携带进度参数",
+      "进度通道只连接本机回环地址，无法读取时长时禁用跳转"
     ],
     "settings": [
       {
@@ -128,7 +130,11 @@
         "max": 65535
       }
     ],
-    "setup": false,
+    "setup": true,
+    "ownerActions": [
+      { "label": "修复启动方式", "operation": "repair-startup", "body": {} },
+      { "label": "恢复启动设置", "operation": "restore-startup", "body": {} }
+    ],
     "controls": {
       "kind": "media",
       "operation": "control",
@@ -146,6 +152,24 @@
     }
   },
   "routes": [
+    {
+      "method": "GET",
+      "path": "/integrations/netease/setup",
+      "operation": "setup",
+      "role": "owner"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/netease/startup/repair",
+      "operation": "repair-startup",
+      "role": "owner"
+    },
+    {
+      "method": "POST",
+      "path": "/integrations/netease/startup/restore",
+      "operation": "restore-startup",
+      "role": "owner"
+    },
     {
       "method": "GET",
       "path": "/integrations/netease",
